@@ -1,0 +1,288 @@
+//screen1 
+onEvent("Start","click",function(){
+setScreen("screen2");
+showElement("player1HighLight");
+hideElement("player2Hightlight");
+checkResults();
+});
+//special Buttons
+onEvent("PlayAgain","click",function(){
+  resetBoard();
+  resetScore();
+});
+
+
+//screen2 
+var p1Score = 0;
+var p2Score = 0;
+var Player = 1;
+var turns = 1;
+var win = 0;
+
+// reset to 0 functions
+function resetScore(){
+  p1Score = 0;
+  p2Score = 0;
+  turns = 1;
+  Player = 1;
+  win = 0;
+  setText("winner","");
+  setText("p2Scoresp",p2Score);
+  setText("p1ScoresP",p1Score);
+}
+
+function resetBoard(){
+  hideElement("dog");
+  hideElement("winner");
+  hideElement("saddog");
+  showElement("player1HighLight");
+  hideElement("player2Hightlight");
+  showButtons();
+  setText("bt1","");
+  setText("bt2","");
+  setText("bt3","");
+  setText("bt4","");
+  setText("bt4","");
+  setText("bt5","");
+  setText("bt5","");
+  setText("bt6","");
+  setText("bt7","");
+  setText("bt7","");
+  setText("bt8","");
+  setText("bt9","");
+  setText("winner","");
+ 
+}
+//showButtons
+function showButtons(){
+  showElement("bt1");
+  showElement("bt2");
+  showElement("bt3");
+  showElement("bt4");
+  showElement("bt5");
+  showElement("bt6");
+  showElement("bt7");
+  showElement("bt8");
+  showElement("bt9");
+  
+}
+
+//restrictions
+
+function restrict(id){
+  if(Player == 1 && getText(id) == "" ){
+    
+    setText(id,"O");
+
+   
+  }else if (Player == 2 && (getText(id) == "") ){
+    setText(id,"X");
+    
+  }
+}
+//parent algorithm
+function updateScreen(id){
+  switchPlayers();
+  if(getText(id)== "O"){
+     p1Score = p1Score + 1;
+    checkResults();
+    setText("p1ScoresP",p1Score);
+    }else if(getText(id) == "X"){
+      p2Score =p2Score + 1;
+   setText("p2Scoresp",p2Score);
+   checkResults();
+   }
+ 
+
+}
+// child algorithm1
+function switchPlayers(){
+turns = turns + 1;
+if(turns == 1|| (turns == 3) || (turns == 5)|| turns == 7|| (turns == 9)) {
+  hideElement("player2Hightlight");
+  showElement("player1HighLight");
+  console.log("p1 turn");
+  Player = 1;
+  console.log(turns);
+}
+
+if((turns == 2)|| (turns == 4)|| turns == 6|| turns == 8||(turns == 10)){
+showElement("player2Hightlight");
+hideElement("player1HighLight");
+console.log("p2 turn");
+Player = 2;
+console.log(turns);
+
+}
+
+}
+//child algorithm 2
+function checkResults(){
+  if(win == 1){
+    P12();
+    hidebuttons();
+    hideElement("saddog");
+    showElement("dog");
+    showElement("winner");
+    setText("winner", "Winner: Player1");
+    
+  }else if (win == 2){
+    P12();
+    hidebuttons();
+    showElement("dog");
+    showElement("winner");
+     hideElement("saddog");
+       hideElement("saddog");
+    setText("winner","Winner: Player2");
+    
+  }else if(turns == 10){
+    hidebuttons();
+    showElement("saddog");
+    showElement("winner");
+   
+    setText("winner", "Tie, Play Again!!");
+  
+  }else{
+    hideElement("dog");
+    hideElement("winner");
+      hideElement("saddog");
+  }
+  
+}
+
+// screen
+function hidebuttons(){
+  hideElement("bt1");
+  hideElement("bt2");
+  hideElement("bt3");
+  hideElement("bt4");
+  hideElement("bt5");
+  hideElement("bt6");
+  hideElement("bt7");
+  hideElement("bt8");
+  hideElement("bt9");
+}
+
+
+
+
+
+
+//winning
+function winnerIs(id1, id2,id3){
+ if (getText(id1) == "O" && getText(id2) == "O" && getText(id3) == "O"){
+    console.log("p1 wins");
+  win = 1;
+
+    
+  }else if (getText(id1) == "X" && getText(id2) == "X" && getText(id3) == "X"){
+ 
+  console.log("p2 wins");
+  win = 2;
+  
+}
+
+
+}
+  function P12(){
+  winnerIs("bt1","bt2","bt3");
+  winnerIs("bt4","bt5","bt6");
+  winnerIs("bt7","bt8","bt9");
+  winnerIs("bt1","bt4","bt7");
+  winnerIs("bt2","bt5","bt8");
+  winnerIs("bt3","bt6","bt9");
+  winnerIs("bt1","bt5","bt9");
+   winnerIs("bt3","bt5","bt7");
+
+   
+  }
+  
+
+  
+
+// button
+
+onEvent("bt1","click", function(){
+  
+  restrict("bt1");
+  P12();
+  updateScreen("bt1");
+
+
+});
+
+onEvent("bt2","click",function(){
+
+  restrict("bt2");
+  P12();
+  updateScreen("bt2");
+
+});
+
+onEvent("bt3","click",function(){
+   
+  restrict("bt3");
+  P12();
+  updateScreen("bt3");
+});
+
+onEvent("bt4","click",function(){
+ 
+  restrict("bt4");
+  P12();
+  updateScreen("bt4");
+});
+
+
+onEvent("bt5","click",function(){
+  
+  restrict("bt5");
+  P12();
+  updateScreen("bt5");
+});
+
+
+onEvent("bt6","click",function(){
+  
+  restrict("bt6");
+  P12();
+  updateScreen("bt6");
+});
+
+
+onEvent("bt7","click",function(){
+ 
+  restrict("bt7");
+  P12();
+  updateScreen("bt7");
+});
+
+
+onEvent("bt8","click",function(){
+
+  restrict("bt8");
+  P12();
+  updateScreen("bt8");
+});
+
+
+onEvent("bt9","click",function(){
+
+  restrict("bt9");
+  P12();
+  updateScreen("bt9");
+});
+// image used in this app came from:
+// Boarding page, screen1: 
+//[1]XOimage-https://i.etsystatic.com/15664544/r/il/3ef00e/1310434447/il_570xN.1310434447_gqgq.jpg
+//[2]Strawberry Image-https://www.whatchefswant.com/wp-content/uploads/2019/02/strawberries.jpg
+//[3]strawberry pink background image-https://whippedupstories.in/wp-content/uploads/2020/03/SAVE_20200319_010100.jpg
+//[4]Rabbits- https://7wallpapers.net/wp-content/uploads/2016/06/9_Rabbit.jpg
+
+
+//Results image:
+//[5]results tie, sad dog image-https://i.pinimg.com/originals/b2/c1/c4/b2c1c40558e57180cedc761d9ce0f34f.jpg
+//[6] winner dog image-https://i.pinimg.com/originals/82/ce/af/82ceaf9557ddaa5baeec20529acb5a46.jpg
+
+
+
